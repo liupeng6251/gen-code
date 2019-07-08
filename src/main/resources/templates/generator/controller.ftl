@@ -9,14 +9,16 @@ import ${classInfo.servicePackage()}.I${classInfo.name}Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.Resource;
 /**
 *
 * Created by liupeng6251@163.com on '${.now?string('yyyy-MM-dd HH:mm:ss')}'.
 */
-@RestController
+@Controller
 @RequestMapping("${classInfo.businessModule}/${classInfo.name?uncap_first}")
 public class ${classInfo.name}Controller {
 
@@ -70,6 +72,16 @@ public class ${classInfo.name}Controller {
     @ResponseBody
     public Object pageList(@RequestBody ${classInfo.name}Param param) {
         Pager<${classInfo.name}Dto> page = ${classInfo.name?uncap_first}Service.selectPage(param);
-       return Result.result(page);
+        Map<String, Object> result = new HashMap<>();
+        result.put("draw", param.getDraw());
+        result.put("recordsTotal", page.getRecords());
+        result.put("recordsFiltered", page.getRecords());
+        result.put("data", page.getRows());
+        return result;
+    }
+
+    @RequestMapping("/list.do")
+    public String list(){
+      return "${classInfo.businessModule}/${classInfo.name?uncap_first}";
     }
 }

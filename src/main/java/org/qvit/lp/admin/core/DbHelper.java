@@ -12,6 +12,8 @@ import java.util.Set;
  */
 public interface DbHelper {
 
+    char KEYWORD_APPEND_CHAR = '_';
+    Set<String> PROJECT_FIELD_KEYWORD = new HashSet<>(Arrays.asList(new String[]{"length","start","searchType","draw"}));
     Set<String> JAVA_KEYWORD = new HashSet<>(Arrays.asList(new String[]{"abstract",
             "assert",
             "boolean",
@@ -31,7 +33,7 @@ public interface DbHelper {
             "switch", "synchronized", "this", "throw", "throws",
             "transient", "try", "void", "volatile", "while"}));
 
-    List<ClassInfo> tableList(String url, String userName, String password, String dbName) throws Exception;
+    List<ClassInfo> tableList(String url, String userName, String password) throws Exception;
 
     String dbName();
 }

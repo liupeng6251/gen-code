@@ -40,7 +40,7 @@ public interface I${classInfo.name}Service {
     /**
     * 查询
     */
-  ${classInfo.name}Dto seletBy${classInfo.primaryKey.name?cap_first}(${classInfo.primaryKey.typeClassName} ${classInfo.primaryKey.name});
+    ${classInfo.name}Dto seletBy${classInfo.primaryKey.name?cap_first}(${classInfo.primaryKey.typeClassName} ${classInfo.primaryKey.name});
 
     /**
     * 分页查询

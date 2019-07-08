@@ -2,7 +2,7 @@ package org.qvit.lp.admin.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import org.qvit.lp.admin.core.MySqlDbHepler;
-import org.qvit.lp.admin.generator.AbstractGenerator;
+import org.qvit.lp.admin.generator.IGenerator;
 import org.qvit.lp.admin.model.ClassInfo;
 import org.qvit.lp.admin.model.ReturnT;
 import org.slf4j.Logger;
@@ -31,7 +31,7 @@ public class IndexController {
     private MySqlDbHepler mySqlDbHepler;
 
     @Autowired
-    private List<AbstractGenerator> generators;
+    private List<IGenerator> generators;
 
 
     @RequestMapping("/")
@@ -42,9 +42,8 @@ public class IndexController {
 
     @RequestMapping("/tableList")
     @ResponseBody
-
-    public ReturnT<List<ClassInfo>> codeGenerate(String url, String userName, String password, String dbName) throws Exception {
-        return new ReturnT<List<ClassInfo>>(mySqlDbHepler.tableList(url, userName, password, dbName));
+    public ReturnT<List<ClassInfo>> codeGenerate(String url, String userName, String password) throws Exception {
+        return new ReturnT<List<ClassInfo>>(mySqlDbHepler.tableList(url, userName, password));
     }
 
 
@@ -59,9 +58,8 @@ public class IndexController {
                              String projectDesc,
                              HttpServletResponse resp) {
         try {
-            logger.info(data);
             List<ClassInfo> tables = JSONArray.parseArray(data, ClassInfo.class);
-            resp.setHeader("Content-Disposition", "attachment; filename=\"example.zip\"");
+            resp.setHeader("Content-Disposition", "attachment; filename=\""+projectName+".zip\"");
             resp.setContentType("application/octet-stream;charset=UTF-8");
             ZipOutputStream zipOut = new ZipOutputStream(resp.getOutputStream());
             Map<String, Object> extParam = new HashMap<>();
@@ -71,7 +69,7 @@ public class IndexController {
             extParam.put("packageName", packageName);
             extParam.put("projectName", projectName);
             extParam.put("projectDesc", projectDesc);
-            for (AbstractGenerator generator : generators) {
+            for (IGenerator generator : generators) {
                 generator.execute(tables, extParam, zipOut);
             }
             zipOut.finish();

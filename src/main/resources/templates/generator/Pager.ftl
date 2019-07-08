@@ -1,86 +1,82 @@
 package ${classInfo.packagePath}.core.page;
 
-import com.google.common.collect.Lists;
-
+import java.io.Serializable;
 import java.util.List;
-
 /**
-*
+ *
 * Created by liupeng6251@163.com on '${.now?string('yyyy-MM-dd HH:mm:ss')}'.
-*/
+ */
 
-public class Pager<T> {
-    private Pager.PageData page;
-    private List<T> data;
+public class Pager<T> implements Serializable {
+    private int page;
+    private int total;
+    private List<T> rows;
+    private Long records;
+    private int draw;
+    private int searchType = 1;
 
-    public Pager() {
+    private Pager() {
+
     }
     public static <T> Pager.Builder<T> builder(List<T> data) {
-        return (new Pager.Builder()).data(data);
+        return new Pager.Builder().data(data);
     }
 
-    public Pager(Pager.PageData page, List<T> data) {
+    public Pager(int page, int total, List<T> rows, Long records) {
         this.page = page;
-        this.data = Lists.newArrayList();
-        this.data.addAll(data);
+        this.total = total;
+        this.rows = rows;
+        this.records = records;
     }
-    public static class PageData {
-        private static final long serialVersionUID = 3599580483667456581L;
-        private int curPage;
-        private int pageSize;
-        private long totalSize;
 
-        public PageData() {
-        }
-
-
-        public PageData(int curPage,int pageSize,long totalSize) {
-            this.curPage = curPage;
-            this.pageSize = pageSize;
-            this.totalSize = totalSize;
-        }
-
-        public PageData(PageRequest.Page page, long totalSize) {
-            if(page != null) {
-                this.curPage = page.getCurrent();
-                this.pageSize = page.getPageSize();
-            }
-
-            this.totalSize = totalSize;
-        }
-
-        public int getCurPage() {
-            return this.curPage;
-        }
-
-        public boolean hasPreviousPage() {
-            return this.getCurPage() > 1;
-        }
-
-        public boolean isFirstPage() {
-            return !this.hasPreviousPage();
-        }
-
-        public int getPageSize() {
-            return this.pageSize;
-        }
-
-        public long getTotalSize() {
-            return this.totalSize;
-        }
-
-        public boolean hasNextPage() {
-            return this.getCurPage() < this.getTotalPage();
-        }
-
-        public boolean isLastPage() {
-            return !this.hasNextPage();
-        }
-
-        public int getTotalPage() {
-            return this.getPageSize() == 0?1:(int)Math.ceil((double)this.totalSize / (double)this.getPageSize());
-        }
+    public int getDraw() {
+        return draw;
     }
+
+    public void setDraw(int draw) {
+        this.draw = draw;
+    }
+
+    public int getSearchType() {
+        return searchType;
+    }
+
+    public void setSearchType(int searchType) {
+        this.searchType = searchType;
+    }
+
+    public int getPage() {
+        return page;
+    }
+
+    public void setPage(int page) {
+        this.page = page;
+    }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
+
+    public List<T> getRows() {
+        return rows;
+    }
+
+    public void setRows(List<T> rows) {
+        this.rows = rows;
+    }
+
+    public Long getRecords() {
+        return records;
+    }
+
+    public void setRecords(Long records) {
+        this.records = records;
+    }
+
     public static class Builder<T> {
         private List<T> data;
         private PageRequest.Page page;
@@ -106,7 +102,11 @@ public class Pager<T> {
         }
 
         public Pager<T> create() {
-            return new Pager(new Pager.PageData(this.page, this.totalSize), this.data);
+            int pageSize = page.getPageSize();
+            Pager<T> pager = new  Pager<T>(page.getCurrent(), (int) (totalSize + pageSize - 1) / pageSize, data, totalSize);
+            pager.setDraw(page.draw+1);
+            pager.setSearchType(page.searchType);
+            return pager;
         }
     }
 }

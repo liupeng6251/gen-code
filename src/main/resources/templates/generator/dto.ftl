@@ -24,12 +24,13 @@ import java.util.Date;
 </#if>
 import javax.validation.constraints.*;
 import org.hibernate.validator.constraints.Length;
+import java.io.Serializable;
 /**
 *  ${classInfo.desc}
 *
 *  Created by liupeng6251@163.com on '${.now?string('yyyy-MM-dd HH:mm:ss')}'.
 */
-public class ${classInfo.name}Dto {
+public class ${classInfo.name}Dto implements Serializable{
 
 <#if classInfo.columnList?exists && classInfo.columnList?size gt 0>
 <#list classInfo.columnList as fieldItem >

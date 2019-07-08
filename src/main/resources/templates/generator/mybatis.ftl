@@ -47,6 +47,9 @@
         <if test="orderByClause != null">
             order by ${r"${orderByClause}"}
         </if>
+        <if test="orderByClause == null">
+            order by ${classInfo.primaryKey.columnName} desc
+        </if>
         <include refid="limit" />
     </select>
 
@@ -66,66 +69,80 @@
         where ${classInfo.primaryKey.columnName} = ${r"#{"}${classInfo.primaryKey.name}${r"}"}
     </delete>
 
-    <insert id="insertSelective"  >
+    <insert id="insertSelective" <#if classInfo.primaryKey != null && classInfo.primaryKey.autoIncrement>useGeneratedKeys="true" keyProperty="${classInfo.primaryKey.columnName}"</#if>>
         INSERT INTO ${classInfo.tableName}
         <#if classInfo.columnList?exists && classInfo.columnList?size gt 0>
         <trim prefix="(" suffix=")" suffixOverrides=",">
          <#list classInfo.columnList as fieldItem >
-             <if test="${fieldItem.name} != null">
+             <#if !fieldItem.autoIncrement>
+              <if test="${fieldItem.name} != null">
                   `${fieldItem.columnName}`,
              </if>
+             </#if>
           </#list>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
          <#list classInfo.columnList as fieldItem >
+             <#if !fieldItem.autoIncrement>
               <if test="${fieldItem.name} != null">
-               ${r"#{"}${fieldItem.name}${r"}"},
+                 ${r"#{"}${fieldItem.name}${r"}"},
               </if>
+             </#if>
          </#list>
         </trim>
         </#if>
     </insert>
-    <insert id="insertBatch"  >
+    <insert id="insertBatch" <#if classInfo.primaryKey != null && classInfo.primaryKey.autoIncrement>useGeneratedKeys="true" keyProperty="${classInfo.primaryKey.columnName}"</#if> >
         INSERT INTO ${classInfo.tableName}
     <#if classInfo.columnList?exists && classInfo.columnList?size gt 0>
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <#list classInfo.columnList as fieldItem >
+                <#if !fieldItem.autoIncrement>
                     `${fieldItem.columnName}`,
+                </#if>
             </#list>
         </trim>
          values
         <foreach collection="list" item="item" index="index" separator=",">
         <trim prefix="(" suffix=")" suffixOverrides=",">
                 <#list classInfo.columnList as fieldItem >
+                 <#if !fieldItem.autoIncrement>
                     ${r"#{item."}${fieldItem.name}${r"}"},
+                 </#if>
                 </#list>
             </trim>
         </foreach>
     </#if>
     </insert>
-    <insert id="insertOrUpdate"  >
+    <insert id="insertOrUpdate" <#if classInfo.primaryKey != null && classInfo.primaryKey.autoIncrement>useGeneratedKeys="true" keyProperty="${classInfo.primaryKey.columnName}"</#if>>
         INSERT INTO ${classInfo.tableName}
     <#if classInfo.columnList?exists && classInfo.columnList?size gt 0>
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <#list classInfo.columnList as fieldItem >
+                <#if !fieldItem.autoIncrement>
                 <if test="${fieldItem.name} != null">
                     `${fieldItem.columnName}`,
                 </if>
+                </#if>
             </#list>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <#list classInfo.columnList as fieldItem >
+                <#if !fieldItem.autoIncrement>
                 <if test="${fieldItem.name} != null">
-                ${r"#{"}${fieldItem.name}${r"}"},
+                    ${r"#{"}${fieldItem.name}${r"}"},
                 </if>
+                </#if>
             </#list>
         </trim>
         ON DUPLICATE KEY UPDATE
         <set>
             <#list classInfo.columnList as fieldItem >
+                <#if !fieldItem.autoIncrement>
                 <if test="${fieldItem.name} != null">
                     `${fieldItem.columnName}` = ${r"#{"}${fieldItem.name}${r"}"},
                 </if>
+                </#if>
             </#list>
         </set>
     </#if>
@@ -134,9 +151,11 @@
         update ${classInfo.tableName}
         <set>
         <#list classInfo.columnList as fieldItem >
-            <if test="${fieldItem.name} != null">
-              `${fieldItem.columnName}` = ${r"#{"}${fieldItem.name}${r"}"},
+            <#if !fieldItem.autoIncrement>
+            <if test="${fieldItem.name} != null" >
+                 `${fieldItem.columnName}` = ${r"#{"}${fieldItem.name}${r"}"},
             </if>
+            </#if>
         </#list>
         </set>
         where ${classInfo.primaryKey.columnName} = ${r"#{"}${classInfo.primaryKey.name}${r"}"}

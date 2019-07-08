@@ -14,6 +14,35 @@ public class ClassFieldInfo {
     private int lenth;
     private boolean allowNull;
 
+    private boolean disableEdit;
+
+    private boolean primarKey;
+
+    private boolean autoIncrement;
+
+    public boolean isPrimarKey() {
+        return primarKey;
+    }
+
+    public void setPrimarKey(boolean primarKey) {
+        this.primarKey = primarKey;
+    }
+
+    public boolean isAutoIncrement() {
+        return autoIncrement;
+    }
+
+    public void setAutoIncrement(boolean autoIncrement) {
+        this.autoIncrement = autoIncrement;
+    }
+
+    public boolean isDisableEdit() {
+        return disableEdit;
+    }
+
+    public void setDisableEdit(boolean disableEdit) {
+        this.disableEdit = disableEdit;
+    }
 
     public String getTypeClassName() {
         return typeClassName;

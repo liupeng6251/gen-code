@@ -1,8 +1,11 @@
 package ${classInfo.packagePath}.core.result;
+
+import java.io.Serializable;
+
 /**
 * Created by peng.liu11 on 2018/9/10.
 */
-public class Result<T> {
+public class Result<T> implements Serializable{
 
     private static int SUCCESS_CODE = 0;
 

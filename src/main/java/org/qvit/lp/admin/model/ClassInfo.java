@@ -11,11 +11,32 @@ public class ClassInfo {
 
     private String packagePath;
     private String name;
+
     private String businessModule;
+
+    private String businessModuleDesc;
     private String tableName;
     private String desc;
+    private boolean disableEdit;
     private ClassFieldInfo primaryKey;
     private List<ClassFieldInfo> columnList;
+
+
+    public boolean isDisableEdit() {
+        return disableEdit;
+    }
+
+    public void setDisableEdit(boolean disableEdit) {
+        this.disableEdit = disableEdit;
+    }
+
+    public String getBusinessModuleDesc() {
+        return businessModuleDesc;
+    }
+
+    public void setBusinessModuleDesc(String businessModuleDesc) {
+        this.businessModuleDesc = businessModuleDesc;
+    }
 
     public String getName() {
         return name;

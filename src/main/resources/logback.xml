@@ -1,27 +1,13 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<configuration debug="false" scan="true" scanPeriod="1 seconds">
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+    <property name="ENCODER_PATTERN" value="[%d{yyyy-MM-dd HH:mm:ss} %5p %class:%L] %m%n"/>
 
-    <contextName>logback</contextName>
-    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <pattern>%d{HH:mm:ss.SSS} %contextName [%thread] %-5level %logger{36} - %msg%n</pattern>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>${ENCODER_PATTERN}</Pattern>
         </encoder>
     </appender>
-
-    <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${log.path}</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${log.path}.%d{yyyy-MM-dd}.zip</fileNamePattern>
-        </rollingPolicy>
-        <encoder>
-            <pattern>%date %level [%thread] %logger{36} [%file : %line] %msg%n
-            </pattern>
-        </encoder>
-    </appender>
-
-    <root level="info">
-        <appender-ref ref="console"/>
-        <appender-ref ref="file"/>
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
     </root>
-
 </configuration>

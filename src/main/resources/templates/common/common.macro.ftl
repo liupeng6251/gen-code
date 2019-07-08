@@ -19,6 +19,10 @@
 <link rel="stylesheet" href="${request.contextPath}/static/adminlte/dist/css/AdminLTE-local.min.css">
 <!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->
 <link rel="stylesheet" href="${request.contextPath}/static/adminlte/dist/css/skins/_all-skins.min.css">
+<link rel="stylesheet" href="${request.contextPath}/static/jquery.ui/jquery-ui.css">
+
+<link rel="stylesheet" href="${request.contextPath}/static/select2/css/select2.min.css">
+
 
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -41,6 +45,9 @@
 <script src="${request.contextPath}/static/adminlte/plugins/fastclick/fastclick.min.js"></script>
 <!-- AdminLTE App -->
 <script src="${request.contextPath}/static/adminlte/dist/js/app.min.js"></script>
+
+<script src="${request.contextPath}/static/jquery.ui/jquery-ui.js"></script>
+
 <#-- jquery.slimscroll -->
 <script src="${request.contextPath}/static/adminlte/plugins/slimScroll/jquery.slimscroll.min.js"></script>
 
@@ -48,6 +55,9 @@
 <script src="${request.contextPath}/static/plugins/layer/layer.js"></script>
 
 <script src="${request.contextPath}/static/js/common.1.js"></script>
+<script src="${request.contextPath}/static/select2/js/select2.min.js"></script>
+
+
 
 </#macro>
 

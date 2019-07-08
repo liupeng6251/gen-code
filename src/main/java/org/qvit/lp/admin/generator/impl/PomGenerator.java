@@ -1,6 +1,6 @@
 package org.qvit.lp.admin.generator.impl;
 
-import org.qvit.lp.admin.generator.AbstractGenerator;
+import org.qvit.lp.admin.generator.BaseGenerator;
 import org.qvit.lp.admin.model.ClassInfo;
 import org.springframework.stereotype.Component;
 
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
  * Created by peng.liu11 on 2019/5/26.
  */
 @Component
-public class PomGenerator extends AbstractGenerator {
+public class PomGenerator extends BaseGenerator {
 
     @Override
     protected String getTemplate() {
