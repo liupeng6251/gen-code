@@ -1,0 +1,14 @@
+.layui-input, .layui-textarea{
+    display: block;
+    width: 75%;
+    padding-left: 10px;
+}
+.layui-form-label {
+    float: left;
+    display: block;
+    padding: 9px 15px;
+    width: 25%;
+    font-weight: 400;
+    line-height: 20px;
+    text-align: right;
+}
